@@ -56,8 +56,15 @@
             </div>
             <div class="small-12 columns">
               <h4>LED Color</h4>
-              <div>
-                <input type="text" value="{{color}}" class="color">
+              <div class = "row">
+                <div class="small-3 columns"><label><input type="radio" class="colors" name="colorlist" value="red" checked> red</label></div>
+                <div class="small-3 columns"><label><input type="radio" class="colors" name="colorlist" value="green"> green</label></div>
+                <div class="small-3 columns"><label><input type="radio" class="colors" name="colorlist" value="blue"> blue</label></div>
+                <div class="small-3 columns"><label><input type="radio" class="colors" name="colorlist" value="cyan"> cyan</label></div>
+                <div class="small-3 columns"><label><input type="radio" class="colors" name="colorlist" value="yellow"> yellow</label></div>
+                <div class="small-3 columns"><label><input type="radio" class="colors" name="colorlist" value="magenta"> magenta</label></div>
+                <div class="small-3 columns"><label><input type="radio" class="colors" name="colorlist" value="white"> white</label></div>
+                <div class="small-3 columns"><label><input type="radio" class="colors" name="colorlist" value="black"> black</label></div>
               </div>
               <div class="row">
                 <div class="small-12 columns">
@@ -123,14 +130,14 @@
             $(this).removeClass('active');
           });
           
-          _this.find('.color').bind('input', function() {
+          _this.find('.colors').bind('change', function() {
             _this.find('.update-color').addClass('active');
           })
 
           _this.find('.update-color').on('click', function() {
             socket.emit('update-color', {
               endpointName: _this.attr('id'),
-              color: _this.find('.color').val()
+              color: $('[name=colorlist]:checked').val()
             });
 
             $(this).removeClass('active');
