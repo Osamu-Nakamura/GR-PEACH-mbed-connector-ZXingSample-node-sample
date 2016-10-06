@@ -83,31 +83,31 @@ io.on('connection', function (socket) {
   // Add new client to array of client upon connection
   sockets.push(socket);
 
-  socket.on('subscribe-to-presses', function (data) {
+  socket.on('subscribe-to-decode', function (data) {
     // Subscribe to all changes of resource /3202/0/5700 (Barcode decoded Data)
     mbedConnectorApi.putResourceSubscription(data.endpointName, ZXingURI, function(error) {
       if (error) throw error;
-      socket.emit('subscribed-to-presses', {
+      socket.emit('subscribed-to-decode', {
         endpointName: data.endpointName
       });
     });
   });
 
-  socket.on('unsubscribe-to-presses', function(data) {
+  socket.on('unsubscribe-to-decode', function(data) {
     // Unsubscribe from the resource /3202/0/5700 (Barcode decoded Data)
     mbedConnectorApi.deleteResourceSubscription(data.endpointName, ZXingURI, function(error) {
       if (error) throw error;
-      socket.emit('unsubscribed-to-presses', {
+      socket.emit('unsubscribed-to-decode', {
         endpointName: data.endpointName
       });
     });
   });
 
-  socket.on('get-presses', function(data) {
+  socket.on('get-decode', function(data) {
     // Read data from GET resource /3202/0/5700 (Barcode decoded Data)
     mbedConnectorApi.getResourceValue(data.endpointName, ZXingURI, function(error, value) {
       if (error) throw error;
-      socket.emit('presses', {
+      socket.emit('decode', {
         endpointName: data.endpointName,
         value: value
       });
@@ -149,7 +149,7 @@ io.on('connection', function (socket) {
 mbedConnectorApi.on('notification', function(notification) {
   if (notification.path === ZXingURI) {
     sockets.forEach(function(socket) {
-      socket.emit('presses', {
+      socket.emit('decode', {
         endpointName: notification.ep,
         value: notification.payload
       });

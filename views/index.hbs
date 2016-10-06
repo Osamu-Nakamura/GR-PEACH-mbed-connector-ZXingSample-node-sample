@@ -39,9 +39,9 @@
           </div>
           <div class="row">
             <div class="small-12 columns">
-              <h4>Decoded Result:<br> <span class="presses-value">Unknown</span></h4>
-              <label><input type="checkbox" class="subscribe-presses"> Subscribe</label>
-              <button class="get-presses">GET</button>
+              <h4>Decoded Result:<br> <span class="decode-value">Unknown</span></h4>
+              <label><input type="checkbox" class="subscribe-decode"> Subscribe</label>
+              <button class="get-decode">GET</button>
             </div>
             <div class="small-12 columns">
               <h4>LED Blink Pattern</h4>
@@ -95,22 +95,22 @@
 
         $('#endpoints').children().each(function(index, element) {
           var _this = $(this);
-          _this.find('.subscribe-presses').change(function() {
+          _this.find('.subscribe-decode').change(function() {
             if ($(this).is(":checked")) {
-              _this.find('.get-presses').prop('disabled', true);
-              socket.emit('subscribe-to-presses', {
+              _this.find('.get-decode').prop('disabled', true);
+              socket.emit('subscribe-to-decode', {
                 endpointName: _this.attr('id')
               });
             } else {
-              _this.find('.get-presses').prop('disabled', false);
-              socket.emit('unsubscribe-to-presses', {
+              _this.find('.get-decode').prop('disabled', false);
+              socket.emit('unsubscribe-to-decode', {
                 endpointName: _this.attr('id')
               });
             }
           });
 
-          _this.find('.get-presses').on('click', function() {
-            socket.emit('get-presses', {
+          _this.find('.get-decode').on('click', function() {
+            socket.emit('get-decode', {
               endpointName: _this.attr('id')
             });
           });
@@ -149,17 +149,17 @@
         });
 
 
-        socket.on('presses', function (data) {
-          console.log('presses', data);
-          $('#' + data.endpointName + ' .presses-value').html(data.value);
+        socket.on('decode', function (data) {
+          console.log('decode', data);
+          $('#' + data.endpointName + ' .decode-value').html(data.value);
         });
 
-        socket.on('subscribed-to-presses', function (data) {
-          console.log('subscribed-to-presses', data);
+        socket.on('subscribed-to-decode', function (data) {
+          console.log('subscribed-to-decode', data);
         });
 
-        socket.on('unsubscribed-to-presses', function (data) {
-          console.log('unsubscribed-to-presses', data);
+        socket.on('unsubscribed-to-decode', function (data) {
+          console.log('unsubscribed-to-decode', data);
         });
       });
     </script>
